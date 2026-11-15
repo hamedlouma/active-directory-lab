@@ -308,6 +308,6 @@ Active Directory (AD DS, OU, comptes, groupes) · DNS (zones directe et inverse)
 
 ## 🚀 Feuille de route
 
-- [x] HowlLab — Active Directory d'entreprise : terminé le 01/09/2026
+- [x] HowlLab — Active Directory d'entreprise : terminé le 25/09/2026
 - [ ] HowlLab — SIEM Wazuh : déploiement du serveur sur Ubuntu, agents sur DC01, WS01 et WS02, tableaux de bord et premiers tests
 - [ ] HowlLab — Purple Team : attaque et détection de l'AD avec Wazuh, les comptes de ce lab serviront de cibles
