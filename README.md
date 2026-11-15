@@ -5,11 +5,22 @@
 ![VirtualBox](https://img.shields.io/badge/VirtualBox-183A61?logo=virtualbox&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white)
 
+## 📌 Présentation du projet
+
 Déploiement d'un Active Directory complet et durci dans un lab virtualisé (VirtualBox), pensé comme un petit SI d'entreprise : un domaine **howl.local**, un contrôleur de domaine assurant AD DS, DNS et DHCP, deux postes clients joints au domaine, une organisation par départements (OU, groupes, GPO), des partages cloisonnés et une politique de sécurité alignée **ANSSI**. La configuration est vérifiée par un script d'audit PowerShell.
 
 **Stack :** Windows Server 2022 · Windows 10 Pro · VirtualBox · PowerShell · GPO · DNS · DHCP
 
-## Architecture
+## 🎯 Objectifs
+
+- Déployer un contrôleur de domaine Windows Server 2022 assurant AD DS, DNS et DHCP
+- Joindre deux postes clients Windows 10 au domaine
+- Organiser les comptes par département (OU, groupes) et appliquer des règles de sécurité par GPO
+- Cloisonner les données avec des partages et des droits NTFS au moindre privilège
+- Aligner la politique de mot de passe sur les recommandations de l'ANSSI
+- Vérifier toute la configuration avec un script d'audit PowerShell
+
+## 🏗 Architecture
 
 <p align="center">
   <img src="images/architecture.png" alt="Architecture du lab HowlLab" width="750">
@@ -25,7 +36,7 @@ Déploiement d'un Active Directory complet et durci dans un lab virtualisé (Vir
 
 **Réseau :** NAT VirtualBox `10.69.20.0/24` · passerelle `.1` · DNS `.10` · plage DHCP `.20 → .50`.
 
-## Top 5 des preuves
+## ⭐ Top 5 des preuves
 
 **1. Rôles installés** — Gestionnaire de serveur : AD DS, DNS, DHCP, Fichiers.
 
@@ -51,7 +62,7 @@ Déploiement d'un Active Directory complet et durci dans un lab virtualisé (Vir
 
 ---
 
-## Mise en œuvre
+## 🔧 Mise en œuvre
 
 Le lab se construit en couches, du socle vers l'utilisateur : on pose d'abord le contrôleur de domaine, puis la distribution des adresses, on raccorde les postes, on organise les comptes, on applique les règles de sécurité, on protège les données, et on termine par les vérifications.
 
@@ -146,7 +157,7 @@ Les groupes ont le droit **Modifier** et non **Contrôle total** : ils travaille
 
 *Dossier commun accessible depuis un poste.*
 
-## Validation
+## ✅ Validation
 
 Tests lancés depuis WS01. Seules les lignes utiles des résultats sont conservées.
 
@@ -236,7 +247,7 @@ MinPasswordLength ComplexityEnabled MaxPasswordAge PasswordHistoryCount LockoutT
 
 Tous les services sont actifs et la politique de mot de passe est conforme.
 
-## Problèmes rencontrés et solutions
+## 🛠 Problèmes rencontrés et solutions
 
 **1. VirtualBox très lent (« native API »)**
 
@@ -275,18 +286,28 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameter
 - *Cause :* l'IP fixe du serveur Wazuh (`.50`) se trouvait dans la plage DHCP.
 - *Solution :* exclusion de `.50` de la plage (voir Phase 2).
 
-## Ce que j'ai appris
+## 📊 Résultats
+
+- Domaine **howl.local** opérationnel : AD DS, DNS (zones directe et inverse) et DHCP actifs sur DC01
+- WS01 et WS02 joints au domaine, adresse reçue du DHCP, lien sécurisé vérifié (`NERR_Success`)
+- GPO appliquées et vérifiées avec `gpresult` : restriction RH effective, bannière et fond d'écran imposés
+- Partages cloisonnés : accès refusé hors du bon groupe, dossier confidentiel réservé aux administrateurs
+- Politique de mot de passe conforme ANSSI : 12 caractères, complexité, historique 24, verrouillage après 5 essais
+- Profil réseau du DC `DomainAuthenticated` stable après redémarrage
+
+## 📘 Ce que j'ai appris
 
 - Un problème d'infrastructure se diagnostique couche par couche : hyperviseur, système, réseau, puis service.
 - L'ordre de démarrage des services compte sur un contrôleur de domaine.
 - Toujours prendre un snapshot avant une mise à jour ou une manipulation risquée.
 - Les OU et les groupes n'ont pas le même rôle : les premières portent les GPO, les seconds les droits.
 
-## Compétences démontrées
+## 🧠 Compétences démontrées
 
 Active Directory (AD DS, OU, comptes, groupes) · DNS (zones directe et inverse) · DHCP · GPO · Droits NTFS et partages · PowerShell (administration et audit) · Virtualisation VirtualBox · Diagnostic Windows (DISM, NLA, VBS)
 
-## Feuille de route
+## 🚀 Feuille de route
 
-- [ ] Prochaine étape : HowlLab — SIEM Wazuh. Installation du SIEM : déploiement du serveur sur Ubuntu, agents sur DC01, WS01 et WS02, tableaux de bord et premiers tests.
-- [ ] Ensuite : HowlLab — Purple Team (attaque et détection AD) avec Wazuh : les comptes de ce lab serviront de cibles.
+- [x] HowlLab — Active Directory d'entreprise : terminé le 15/11/2026
+- [ ] HowlLab — SIEM Wazuh : déploiement du serveur sur Ubuntu, agents sur DC01, WS01 et WS02, tableaux de bord et premiers tests
+- [ ] HowlLab — Purple Team : attaque et détection de l'AD avec Wazuh, les comptes de ce lab serviront de cibles
