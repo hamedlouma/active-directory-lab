@@ -1,5 +1,5 @@
 ﻿<#
-    Audit-Projet1.ps1 - Etat des lieux du Projet 1 (Active Directory howl.local)
+    Audit-Projet1.ps1 - Etat des lieux de ce projet (Active Directory howl.local)
     A lancer sur DC01, dans PowerShell en administrateur :
         powershell -ExecutionPolicy Bypass -File .\Audit-Projet1.ps1
     Resultats : affiches a l'ecran + enregistres dans C:\Audit-Projet1\

@@ -68,7 +68,7 @@ Le lab se construit en couches, du socle vers l'utilisateur : on pose d'abord le
 
 - Rôle DHCP installé et autorisé dans l'AD. Le DHCP de VirtualBox est désactivé pour que DC01 soit le seul serveur DHCP du réseau.
 - Étendue « HowlLab » `10.69.20.20 → .50`, avec les options passerelle `.1`, DNS `.10` et domaine `howl.local`.
-- L'adresse `.50` est réservée au futur serveur SIEM Wazuh (Projet 1.5). Pour qu'aucun poste ne la reçoive, on l'exclut de la plage :
+- L'adresse `.50` est réservée au futur serveur SIEM Wazuh (HowlLab — SIEM Wazuh). Pour qu'aucun poste ne la reçoive, on l'exclut de la plage :
 
 ```powershell
 Add-DhcpServerv4ExclusionRange -ScopeId 10.69.20.0 -StartRange 10.69.20.50 -EndRange 10.69.20.50
@@ -109,7 +109,7 @@ Les **OU** servent à appliquer les GPO ; les **groupes** servent à donner les 
 | fond_écran_imposé | Utilisateurs | Fond d'écran imposé depuis le partage `commun` |
 | restriction_rh | OU RH | Accès au Panneau de configuration interdit |
 | GPO-ICMP-Allow | Domaine | Autorise le ping (ICMPv4 entrant) |
-| GPO-Wazuh-Firewall | Domaine | Ouvre les ports 1514/1515 pour l'agent Wazuh (Projet 1.5) |
+| GPO-Wazuh-Firewall | Domaine | Ouvre les ports 1514/1515 pour l'agent Wazuh (HowlLab — SIEM Wazuh) |
 
 Pas d'expiration périodique des mots de passe pour les comptes standards : depuis 2021, l'ANSSI privilégie la longueur et ne recommande plus le renouvellement forcé.
 
@@ -288,5 +288,5 @@ Active Directory (AD DS, OU, comptes, groupes) · DNS (zones directe et inverse)
 
 ## Feuille de route
 
-- [ ] Projet 1.5 — installation du SIEM Wazuh : déploiement du serveur sur Ubuntu, agents sur DC01, WS01 et WS02, tableaux de bord et premiers tests.
-- [ ] Projet 2 — attaque et détection de l'AD avec Wazuh : les comptes de ce lab serviront de cibles.
+- [ ] Prochaine étape : HowlLab — SIEM Wazuh. Installation du SIEM : déploiement du serveur sur Ubuntu, agents sur DC01, WS01 et WS02, tableaux de bord et premiers tests.
+- [ ] Ensuite : HowlLab — Purple Team (attaque et détection AD) avec Wazuh : les comptes de ce lab serviront de cibles.
